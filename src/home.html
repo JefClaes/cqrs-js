@@ -1,0 +1,44 @@
+<html>
+<head>
+	<script type="text/javascript" src="bbq.js"></script>
+	<script type="text/javascript">
+		window.onload = function() {
+			bbq.bootstrap();	
+
+			sendCreateBarbecueCommand.onclick = function() {			
+				var bbqId = createBbqCommand_Id.value;
+
+				bbq.infrastructure.busInstance.dispatch(new bbq.commands.CreateBarbecueCommand(bbqId));
+			};
+
+			sendAddPieceOfMeatCommand.onclick = function() {
+				var bbqId = addPieceOfMeatCommand_BbqId.value;
+				var name = addPieceOfMeatCommand_Name.value;
+				var belongsTo = addPieceOfMeatCommand_BelongsTo.value;
+
+				var command = new bbq.commands.AddPieceOfMeatCommand(bbqId, name, belongsTo);
+				bbq.infrastructure.busInstance.dispatch(command);
+			};			
+
+			refreshReadModel.onclick = function() {					
+				readmodel.innerHTML = JSON.stringify(bbq.readModels);
+			};
+		};	
+	</script>
+</head>
+<body>
+	<div>
+		<label>Id</label><input type="text" id="createBbqCommand_Id"/>
+		<input type="button" id="sendCreateBarbecueCommand" value="Send CreateBarbecueCommand"/>
+	</div>
+	<div>
+		<label>Id</label><input type="text" id="addPieceOfMeatCommand_BbqId"/>
+		<label>Name</label><input type="text" id="addPieceOfMeatCommand_Name"/>
+		<label>Belongs to</label><input type="text" id="addPieceOfMeatCommand_BelongsTo"/>
+		<input type="button" id="sendAddPieceOfMeatCommand" value="Send AddPieceOfMeatCommand"/>
+	</div>
+	<div>
+		<input type="button" id="refreshReadModel" value="Refresh readmodel" />
+		<label id="readmodel"/>
+	</div>
+</body>
